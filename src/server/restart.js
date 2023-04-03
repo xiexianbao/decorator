@@ -2,31 +2,19 @@ import chokidar from 'chokidar'
 import { spawn } from 'node:child_process'
 import process from 'node:process'
 
-
-chokidar.watch('./httpServer.js').on('all', () => {
-  restartServer()
-  reloadBrowser()
-})
-
-// 重启服务器
 let childProcess = null
-function restartServer() {
-  // 关闭之前的进程
-  childProcess && childProcess.kill()
 
-  // 启动新进程
-  childProcess = spawn('node', ['dev.js'], {
+// 重启服务器进程
+function restartProcess() {
+  childProcess && childProcess.kill()
+  childProcess = spawn('node', ['./server.js'], {
     stdio: [process.stdin, process.stdout, process.stderr]
   })
 }
 
-// 重新加载浏览器
-function reloadBrowser() {}
-
-// 更新哪些文件需要重新加载浏览器
-/**
- * 服务端文件：
- *  1. httpServer.js
- * 客户端文件：
- *  1. index.html
- */
+// 启动服务器
+export function startServer() {
+  chokidar.watch('./server.js').on('all', () => {
+    restartProcess()
+  })
+}
