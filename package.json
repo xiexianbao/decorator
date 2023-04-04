@@ -6,13 +6,17 @@
   "type": "module",
   "scripts": {
     "dev": "node ./src/index.js",
+    "c": "tsc ./src/client/controller.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^5.2.0",
     "chokidar": "^3.5.3",
+    "koa": "^2.14.1",
+    "koa-router": "^12.0.0",
     "reflect-metadata": "^0.1.13",
     "rollup": "^3.20.2",
     "rollup-plugin-typescript2": "^0.34.1",

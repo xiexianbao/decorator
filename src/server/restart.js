@@ -1,20 +1,22 @@
 import chokidar from 'chokidar'
 import { spawn } from 'node:child_process'
 import process from 'node:process'
+import { reloadBrowser } from '../client/reload.js'
 
-let childProcess = null
+let serverProcess = null
 
 // 重启服务器进程
-function restartProcess() {
-  childProcess && childProcess.kill()
-  childProcess = spawn('node', ['./server.js'], {
+function restartServerProcess() {
+  serverProcess && serverProcess.kill()
+  serverProcess = spawn('node', ['src/server/server.js'], {
     stdio: [process.stdin, process.stdout, process.stderr]
   })
 }
 
 // 启动服务器
-export function startServer() {
-  chokidar.watch('./server.js').on('all', () => {
-    restartProcess()
+export function startWatch() {
+  chokidar.watch('src/server/server.js').on('change', () => {
+    restartServerProcess()
+    reloadBrowser()
   })
 }

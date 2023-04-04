@@ -1,5 +1,6 @@
 import { WebSocketServer } from 'ws'
 import chokidar from 'chokidar'
+import chalk from 'chalk'
 
 let ws = null
 
@@ -8,22 +9,21 @@ function createWsServer() {
   const wsPort = 3001
   const wsServer = new WebSocketServer({ port: wsPort })
   wsServer.on('connection', _ => {
-    console.log(`连接 websocket 服务：${wsPort}`)
-    wx = _
-    ws.send(JSON.stringify({type: 'reload'}))
+    console.log(chalk.yellow(`连接 websocket 服务：${wsPort}`))
+    ws = _
   })
 }
 
 // 重新加载浏览器
-function reloadBrowser() {
+export function reloadBrowser() {
   if (ws) {
     ws.send(JSON.stringify({type: 'reload'}))
   }
 }
 
 // 监视文件
-function watch() {
-  chokidar.watch('./index.html').on('all', () => {
+function startWatch() {
+  chokidar.watch('src/client/index.html').on('change', () => {
     reloadBrowser()
   })
 }
@@ -31,5 +31,5 @@ function watch() {
 // 开启客户端热重载
 export function startHotReload() {
   createWsServer()
-  watch()
+  startWatch()
 }

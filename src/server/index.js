@@ -1,1 +1,7 @@
-export { startServer as startDevServer } from './restart.js'
+import { startWatch } from './restart.js'
+import { createServer } from './server.js'
+
+export function createDevServer() {
+  createServer()
+  startWatch()
+}
