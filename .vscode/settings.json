@@ -1,0 +1,6 @@
+{
+  // "jestrunner.configPath": "/jest.config.mjs"
+  // "jestrunner.jestCommand": "npm run test --"
+  "jest.autoRun": "off",
+  "js/ts.implicitProjectConfig.experimentalDecorators":true
+}
